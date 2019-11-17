@@ -1,0 +1,39 @@
+FROM centos:7
+
+# RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+LABEL maintainer "devops@hcube.io"
+
+# Build env setup
+RUN yum -y update
+RUN yum -y install yum-utils
+RUN yum -y install epel-release
+RUN yum -y groupinstall development
+RUN yum -y install openssl-devel.x86_64
+RUN yum install https://centos7.iuscommunity.org/ius-release.rpm -y
+RUN yum -y install cyrus-sasl-devel
+RUN yum -y install wget
+# Python Setup
+RUN yum -y install python36u
+RUN yum -y install python36u-pip
+RUN pip3.6 install --upgrade setuptools pip
+
+# Get requirements from PIP
+COPY requirements.txt ./
+RUN python3.6 -m pip install -r ./requirements.txt
+
+# Setup container
+RUN useradd hypercube --create-home
+
+EXPOSE 60000
+
+# Setup startup script
+ADD start.sh ./start.sh
+RUN chmod +x ./start.sh
+
+ADD --chown=hypercube app.py /home/hypercube/
+
+# Run App
+CMD ["/bin/sh", "start.sh"]
