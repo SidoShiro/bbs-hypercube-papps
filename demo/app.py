@@ -21,7 +21,7 @@ app.layout = html.Div(children=[
         figure={
             'data': [
                 {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF', 'marker': {'color': 'red'}},
-                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': 'Montréal', 'marker': {'color': 'green'}},
+                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': 'Montréal', 'marker': {'color': 'yellow'}},
             ],
             'layout': {
                 'title': 'Dash Data Visualization'
